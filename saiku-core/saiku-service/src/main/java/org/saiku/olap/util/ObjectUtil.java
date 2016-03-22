@@ -26,6 +26,7 @@ import org.jetbrains.annotations.Nullable;
 import org.olap4j.Axis;
 import org.olap4j.OlapException;
 import org.olap4j.metadata.*;
+import org.olap4j.metadata.DisplayFolder;
 import org.olap4j.query.QueryAxis;
 import org.olap4j.query.QueryDimension;
 import org.olap4j.query.Selection;
@@ -113,6 +114,13 @@ public class ObjectUtil {
   @NotNull
   public static SaikuHierarchy convert(@NotNull Hierarchy hierarchy) {
     try {
+      String displayFolder = null;
+      // jbarefoot:  MondrianOlap4jHierarchy does not have a display folder for hierarchy ...this isn't great, but
+      // there's no other way to get the display folder from other XMLA sources e.g. SSAS without changing
+      // the Hierarchy interface and getting the Mondrian dev team to update their implementation
+      if(hierarchy instanceof DisplayFolder){
+        displayFolder = ((DisplayFolder)hierarchy).getDisplayFolder();
+      }
       return new SaikuHierarchy(
           hierarchy.getName(),
           hierarchy.getUniqueName(),
@@ -120,6 +128,7 @@ public class ObjectUtil {
           hierarchy.getDescription(),
           hierarchy.getDimension().getUniqueName(),
           hierarchy.isVisible(),
+          displayFolder,
           convertLevels(hierarchy.getLevels()),
           convertMembers(hierarchy.getRootMembers()));
     } catch (OlapException e) {
@@ -283,11 +292,15 @@ public class ObjectUtil {
 
   @NotNull
   public static SaikuMeasure convertMeasure(@NotNull Measure m) {
-    Map<String, Property> props2 = m.getProperties().asMap();
-
-    NamedList<Property> props = m.getProperties();
-    //String f = m.getPropertyValue(Property.);
     String f = SaikuMondrianHelper.getMeasureGroup(m);
+    if(StringUtils.isBlank(f)){
+      // jbarefoot:  Mondrian Measures support folders but in a different way from SSAS (they use something called measure groups)
+      // However Mondrian still implements the olap4j Measure interface, so we can't break that
+      if(m instanceof DisplayFolder){
+        f = ((DisplayFolder)m).getDisplayFolder();
+      }
+
+    }
 
     return new SaikuMeasure(
         m.getName(),
