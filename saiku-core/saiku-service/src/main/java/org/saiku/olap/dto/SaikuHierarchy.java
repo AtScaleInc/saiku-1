@@ -26,6 +26,7 @@ public class SaikuHierarchy extends AbstractSaikuObject {
   private List<SaikuMember> rootmembers;
   private String description;
   private boolean visible;
+  private String displayFolder;
 
   public SaikuHierarchy() {
     super( null, null );
@@ -33,7 +34,7 @@ public class SaikuHierarchy extends AbstractSaikuObject {
   }
 
   public SaikuHierarchy( String name, String uniqueName, String caption, String description, String dimensionUniqueName,
-                         boolean visible, List<SaikuLevel> levels, List<SaikuMember> rootmembers ) {
+                         boolean visible, String displayFolder, List<SaikuLevel> levels, List<SaikuMember> rootmembers ) {
     super( uniqueName, name );
     this.caption = caption;
     this.dimensionUniqueName = dimensionUniqueName;
@@ -41,6 +42,7 @@ public class SaikuHierarchy extends AbstractSaikuObject {
     this.rootmembers = rootmembers;
     this.description = description;
     this.visible = visible;
+    this.displayFolder = displayFolder;
   }
 
   public String getCaption() {
@@ -69,4 +71,14 @@ public class SaikuHierarchy extends AbstractSaikuObject {
   public boolean isVisible() {
     return visible;
   }
+
+  /**
+   *  In MS SQlServer Analysis Services, you can group hierarchies into folders, these are called display folders.
+   *
+   * @return the displayFolder
+   */
+  public String getDisplayFolder() {
+    return displayFolder;
+  }
+
 }

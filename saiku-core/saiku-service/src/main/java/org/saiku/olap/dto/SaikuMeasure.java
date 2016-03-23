@@ -29,4 +29,13 @@ public class SaikuMeasure extends SaikuMember {
     return measureGroup;
   }
 
+  /**
+   *  Synonym for measuregroup.  In MS SQlServer Analysis Services, this is called a display folder.
+   *
+   * @return the measuregroup / displayFolder
+   */
+  public String getDisplayFolder() {
+    return measureGroup;
+  }
+
 }
