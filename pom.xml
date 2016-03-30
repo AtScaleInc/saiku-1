@@ -122,6 +122,12 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+
+        <repository>
+          <id>olap4j-patch-repo</id>
+          <url>file://${env.PWD}/olap4j_patch</url>
+        </repository>
+
     </repositories>
     <build>
         <plugins>
@@ -422,16 +428,12 @@
             <dependency>
                 <groupId>org.olap4j</groupId>
                 <artifactId>olap4j</artifactId>
-                <version>TRUNK-SNAPSHOT</version>
-                <scope>system</scope>
-                <systemPath>${env.PWD}/olap4j_patch/olap4j-TRUNK-SNAPSHOT.jar</systemPath>
+                <version>PATCH</version>
             </dependency>
             <dependency>
               <groupId>org.olap4j</groupId>
               <artifactId>olap4j-xmla</artifactId>
-              <version>TRUNK-SNAPSHOT</version>
-              <scope>system</scope>
-              <systemPath>${env.PWD}/olap4j_patch/olap4j-xmla-TRUNK-SNAPSHOT.jar</systemPath>
+              <version>PATCH</version>
             </dependency>
             <dependency>
               <groupId>org.olap4j</groupId>
